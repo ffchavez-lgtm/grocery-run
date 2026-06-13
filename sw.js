@@ -1,4 +1,4 @@
-const CACHE = 'grocery-run-v1';
+const CACHE = 'grocery-run-v4';
 const ASSETS = [
   './',
   './index.html',
