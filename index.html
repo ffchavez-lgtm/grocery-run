@@ -12,48 +12,38 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231F5C45'/%3E%3Cpath d='M28 40h44l-5 30a4 4 0 0 1-4 4H37a4 4 0 0 1-4-4z' fill='none' stroke='%23F7F5EF' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M40 40c0-9 4-15 10-15s10 6 10 15' fill='none' stroke='%23E0922B' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
   :root{
     --paper:#F7F5EF; --surface:#FFFFFF; --ink:#1C2A24; --muted:#6E7B74;
     --pine:#1F5C45; --pine-soft:#E7EEEA; --honey:#C8761F; --honey-soft:#F6EAD8;
-    --clay:#B23A2E; --line:#E4E0D5; --line-soft:#EFECE3;
+    --clay:#B23A2E; --line:#E4E0D5; --line-soft:#EFECE3; --blue:#355E7A;
     --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Roboto Mono",monospace;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;}
-  body{
-    background:var(--paper); color:var(--ink); font-family:var(--sans);
-    line-height:1.5; font-size:16px;
-    padding:0 0 calc(env(safe-area-inset-bottom) + 96px);
-    -webkit-font-smoothing:antialiased;
-  }
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5;font-size:16px;
+    padding:0 0 calc(env(safe-area-inset-bottom) + 96px);-webkit-font-smoothing:antialiased;}
   .wrap{max-width:560px;margin:0 auto;}
-
-  /* ---- top bar ---- */
-  .top{
-    position:sticky;top:0;z-index:20;background:var(--paper);
-    padding:calc(env(safe-area-inset-top) + 14px) 18px 12px;
-    border-bottom:1px solid var(--line);
-  }
-  .brand{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .top{position:sticky;top:0;z-index:20;background:var(--paper);
+    padding:calc(env(safe-area-inset-top) + 14px) 18px 12px;border-bottom:1px solid var(--line);}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
   .mark{width:30px;height:30px;flex:none;}
   .brand h1{font-size:20px;font-weight:700;letter-spacing:-0.02em;margin:0;}
-  .brand p{font-size:12px;color:var(--muted);margin:1px 0 0;letter-spacing:0.01em;}
-
+  .brand p{font-size:12px;color:var(--muted);margin:1px 0 0;}
+  .seg{display:flex;background:var(--line-soft);border-radius:11px;padding:3px;}
+  .seg button{flex:1;border:none;background:transparent;padding:9px 4px;border-radius:9px;font-size:14px;
+    font-weight:600;color:var(--muted);cursor:pointer;font-family:var(--sans);}
+  .seg button.on{background:var(--surface);color:var(--ink);}
+  .budgetbar{padding:14px 18px 4px;}
   .meter-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:7px;}
   .incart{font-family:var(--mono);font-size:15px;font-weight:600;}
   .incart .of{color:var(--muted);font-weight:400;}
-  .budget-btn{
-    font-family:var(--mono);font-size:13px;color:var(--pine);background:var(--pine-soft);
-    border:none;border-radius:8px;padding:5px 10px;font-weight:600;cursor:pointer;
-  }
+  .budget-btn{font-family:var(--mono);font-size:13px;color:var(--pine);background:var(--pine-soft);
+    border:none;border-radius:8px;padding:5px 10px;font-weight:600;cursor:pointer;}
   .budget-edit{display:flex;align-items:center;gap:6px;}
-  .budget-edit input{
-    font-family:var(--mono);font-size:14px;width:74px;padding:5px 8px;border:1px solid var(--pine);
-    border-radius:8px;background:var(--surface);color:var(--ink);
-  }
+  .budget-edit input{font-family:var(--mono);font-size:14px;width:74px;padding:5px 8px;border:1px solid var(--pine);
+    border-radius:8px;background:var(--surface);color:var(--ink);}
   .meter{position:relative;height:10px;border-radius:6px;background:var(--line-soft);overflow:hidden;}
   .meter-fill{height:100%;border-radius:6px;background:var(--pine);width:0%;transition:width .25s ease,background .25s ease;}
   .meter-mark{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:.45;}
@@ -61,32 +51,28 @@
   .stat{font-size:11px;color:var(--muted);}
   .stat b{display:block;font-family:var(--mono);font-size:14px;font-weight:600;color:var(--ink);margin-top:1px;}
   .stat b.over{color:var(--clay);}
-
-  /* ---- store ---- */
   .store{margin:18px 14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;}
   .store-head{padding:14px 16px 12px;border-bottom:1px solid var(--line-soft);}
   .store-title{display:flex;align-items:center;gap:8px;}
   .pin{width:16px;height:16px;flex:none;color:var(--pine);}
   .store-title h2{font-size:16px;font-weight:700;margin:0;letter-spacing:-0.01em;}
+  .badge-bulk{font-size:10px;font-weight:700;letter-spacing:.04em;color:#7a4711;background:var(--honey-soft);
+    border-radius:20px;padding:2px 8px;margin-left:6px;}
+  .badge-week{font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--pine);background:var(--pine-soft);
+    border-radius:20px;padding:2px 8px;margin-left:6px;}
   .store-loc{font-size:12px;color:var(--muted);margin:2px 0 0 24px;}
   .store-tip{font-size:11px;color:var(--honey);margin:8px 0 0;line-height:1.45;display:flex;gap:5px;}
   .store-tip svg{flex:none;margin-top:1px;}
-  .coupon{
-    margin:10px 0 0;display:inline-flex;align-items:center;gap:8px;cursor:pointer;
-    background:var(--honey-soft);border-radius:9px;padding:7px 11px;font-size:12px;color:#7a4711;font-weight:600;
-  }
+  .coupon{margin:10px 0 0;display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+    background:var(--honey-soft);border-radius:9px;padding:7px 11px;font-size:12px;color:#7a4711;font-weight:600;}
   .coupon .sw{width:32px;height:18px;border-radius:10px;background:#d8cdbb;position:relative;transition:background .2s;flex:none;}
   .coupon .sw i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .2s;}
   .coupon.on .sw{background:var(--honey);}
   .coupon.on .sw i{left:16px;}
-
-  /* ---- item ---- */
   .item{display:flex;align-items:flex-start;gap:11px;padding:11px 16px;border-bottom:1px solid var(--line-soft);}
   .item:last-child{border-bottom:none;}
-  .check{
-    width:22px;height:22px;flex:none;margin-top:1px;border:2px solid #cfd6d1;border-radius:7px;
-    background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;
-  }
+  .check{width:22px;height:22px;flex:none;margin-top:1px;border:2px solid #cfd6d1;border-radius:7px;
+    background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;}
   .check svg{width:14px;height:14px;color:#fff;opacity:0;}
   .item.checked .check{background:var(--pine);border-color:var(--pine);}
   .item.checked .check svg{opacity:1;}
@@ -96,20 +82,17 @@
   .star{color:var(--honey);font-size:12px;margin-left:4px;}
   .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
   .tag{font-size:10px;color:var(--muted);background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:1px 7px;}
+  .inote{font-size:11px;color:var(--blue);margin-top:5px;display:flex;align-items:center;gap:4px;}
   .right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none;}
   .price{font-family:var(--mono);font-size:14px;font-weight:600;}
   .qty{font-family:var(--mono);font-size:11px;color:var(--muted);}
   .edit-btn{background:none;border:none;color:#b6bdb8;cursor:pointer;padding:2px;}
   .edit-btn svg{width:15px;height:15px;display:block;}
-
-  /* ---- edit / add forms ---- */
   .editor{padding:12px 16px;background:var(--paper);border-bottom:1px solid var(--line-soft);}
   .editor .frow{display:flex;gap:8px;margin-bottom:8px;}
   .editor label{font-size:11px;color:var(--muted);display:block;margin-bottom:3px;}
-  .editor input{
-    width:100%;font-family:var(--sans);font-size:15px;padding:9px 10px;border:1px solid var(--line);
-    border-radius:9px;background:var(--surface);color:var(--ink);
-  }
+  .editor input{width:100%;font-family:var(--sans);font-size:15px;padding:9px 10px;border:1px solid var(--line);
+    border-radius:9px;background:var(--surface);color:var(--ink);}
   .editor input.num{font-family:var(--mono);}
   .editor .actions{display:flex;gap:8px;justify-content:space-between;align-items:center;}
   .btn{font-family:var(--sans);font-size:14px;font-weight:600;border-radius:9px;padding:9px 16px;border:none;cursor:pointer;}
@@ -119,13 +102,35 @@
   .add-row{padding:11px 16px;}
   .add-trigger{width:100%;background:transparent;border:1px dashed #cdd4cf;color:var(--pine);font-weight:600;
     font-size:14px;border-radius:10px;padding:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
-
-  /* ---- footer ---- */
   .foot{display:flex;gap:10px;margin:22px 14px 0;}
   .foot .btn{flex:1;}
   .foot .new{background:var(--honey);color:#fff;}
   .note{font-size:11px;color:var(--muted);text-align:center;margin:16px 24px 0;line-height:1.5;}
-
+  .day-pills{display:flex;gap:6px;flex-wrap:wrap;margin:18px 14px 16px;}
+  .day-pill{font-size:13px;padding:6px 13px;border-radius:20px;border:1px solid var(--line);background:var(--surface);cursor:pointer;color:var(--ink);}
+  .day-pill.sel{background:var(--pine);color:#fff;border-color:var(--pine);}
+  .mcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin:0 14px 10px;overflow:hidden;}
+  .mhead{display:flex;justify-content:space-between;align-items:flex-start;padding:13px 14px;cursor:pointer;}
+  .mtype{font-size:10px;font-weight:700;letter-spacing:.08em;margin-bottom:3px;}
+  .mname{font-size:15px;font-weight:600;line-height:1.3;}
+  .mmeta{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.4;}
+  .mtime{font-size:12px;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:3px;margin-left:12px;flex-shrink:0;padding-top:2px;}
+  .msteps{border-top:1px solid var(--line-soft);padding:10px 14px 14px;display:none;}
+  .msteps.open{display:block;}
+  .mstep{display:flex;gap:10px;padding:5px 0;font-size:13px;color:var(--muted);line-height:1.5;}
+  .mnum{font-size:12px;font-weight:700;color:#b6bdb8;min-width:16px;flex-shrink:0;padding-top:1px;}
+  .sec-h{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:18px 16px 8px;}
+  .inv{display:flex;align-items:center;gap:11px;padding:11px 16px;border-bottom:1px solid var(--line-soft);}
+  .inv:last-child{border-bottom:none;}
+  .inv .ibody{flex:1;min-width:0;}
+  .inv .iname{font-size:15px;}
+  .inv .ihint{font-size:11px;color:var(--muted);margin-top:2px;}
+  .restock{font-size:10px;font-weight:700;color:var(--clay);background:#f6e3e0;border-radius:20px;padding:1px 7px;margin-left:6px;}
+  .counter{display:flex;align-items:center;flex:none;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .counter button{width:36px;height:36px;border:none;background:var(--surface);color:var(--pine);font-size:19px;font-weight:700;cursor:pointer;font-family:var(--sans);}
+  .counter button:active{background:var(--pine-soft);}
+  .counter .cval{min-width:36px;text-align:center;font-family:var(--mono);font-size:15px;font-weight:600;}
+  .counter .cval.low{color:var(--clay);}
   :focus-visible{outline:2px solid var(--pine);outline-offset:2px;}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
 </style>
@@ -139,288 +144,328 @@
         <path d="M28 40h44l-5 30a4 4 0 0 1-4 4H37a4 4 0 0 1-4-4z" fill="none" stroke="#F7F5EF" stroke-width="5" stroke-linejoin="round"/>
         <path d="M40 40c0-9 4-15 10-15s10 6 10 15" fill="none" stroke="#E0922B" stroke-width="5" stroke-linecap="round"/>
       </svg>
-      <div>
-        <h1>Grocery Run</h1>
-        <p>Georgetown + Idaho Springs · weekly</p>
+      <div><h1>Grocery Run</h1><p>Denver stock-up · weekly fresh</p></div>
+    </div>
+    <div class="seg">
+      <button id="tab-shop" class="on" data-view="shop">Shopping</button>
+      <button id="tab-meals" data-view="meals">Meals</button>
+      <button id="tab-freeze" data-view="freeze">Freezer</button>
+    </div>
+  </div>
+
+  <div id="shopview">
+    <div class="budgetbar">
+      <div class="meter-row">
+        <span class="incart"><span id="incart">$0.00</span> <span class="of">in cart</span></span>
+        <span id="budget-slot"></span>
+      </div>
+      <div class="meter"><div class="meter-fill" id="fill"></div><div class="meter-mark" id="mark"></div></div>
+      <div class="stat-row">
+        <div class="stat">checked total<b id="plan">$0.00</b></div>
+        <div class="stat">budget left<b id="left">$0.00</b></div>
+        <div class="stat">items in cart<b id="count">0 / 0</b></div>
       </div>
     </div>
-
-    <div class="meter-row">
-      <span class="incart"><span id="incart">$0.00</span> <span class="of">in cart</span></span>
-      <span id="budget-slot"></span>
+    <div id="stores"></div>
+    <div class="foot">
+      <button class="btn new" id="newweek">Clear all checks</button>
+      <button class="btn ghost" id="reset">Reset to default list</button>
     </div>
-    <div class="meter">
-      <div class="meter-fill" id="fill"></div>
-      <div class="meter-mark" id="mark" title="full plan"></div>
-    </div>
-    <div class="stat-row">
-      <div class="stat">plan total<b id="plan">$0.00</b></div>
-      <div class="stat">budget left<b id="left">$0.00</b></div>
-      <div class="stat">items in cart<b id="count">0 / 0</b></div>
-    </div>
+    <p class="note">Two rhythms: check the green WEEKLY stores for your fresh run, and the amber STOCK-UP clubs only on a Denver trip. Set the budget to match whichever trip you're doing. Bulk staples cost more up front but far less per week — that's where the savings are.</p>
   </div>
 
-  <div id="stores"></div>
-
-  <div class="foot">
-    <button class="btn new" id="newweek">Start new week</button>
-    <button class="btn ghost" id="reset">Reset to default list</button>
+  <div id="mealview" style="display:none;">
+    <div id="day-pills" class="day-pills"></div>
+    <div id="mealcards"></div>
+    <p class="note">Snacks: apples, baby carrots, almonds, a square of dark chocolate, blueberries. Drinks: coffee, green tea, sparkling water, or an Olipop or Liquid Death. Roast chicken, the bulk ground beef, and a batch of beans are meant to carry across several days.</p>
   </div>
-  <p class="note">Saved automatically on this phone. Add it to your home screen from your browser menu for one-tap access. Prices are your estimates — tap any item to adjust.</p>
+
+  <div id="freezeview" style="display:none;">
+    <p class="sec-h">Portioning guide</p>
+    <div id="guidecards"></div>
+    <p class="sec-h">Freezer &amp; pantry inventory</p>
+    <div class="store"><div id="invlist"></div></div>
+    <p class="note">Tap − or + as you use things up or restock. When a count hits its low mark it turns red — that's your cue to put it on the next Denver run.</p>
+  </div>
 </div>
 
 <script>
-const KEY = 'groceryRun_v1';
+const KEY = 'groceryRun_v3';
 
 const DEFAULT = {
-  budget: 75,
-  stores: [
-    {
-      id:'dg', name:'Dollar General', loc:'Georgetown, CO',
-      tip:'Shop Saturday for the $5 off $25 store coupon · clip digital coupons in the myDG app first.',
-      coupon:{ label:'$5 off $25 (Sat)', threshold:25, amount:5, on:true },
-      items:[
-        {id:'d1', name:'Eggs (dozen)', price:2.75, qty:1, tags:['B12','Vit D','Selenium']},
-        {id:'d2', name:'Rolled oats (18 oz)', price:2.50, qty:1, tags:['B1','Magnesium','Iron']},
-        {id:'d3', name:'Peanut butter (16 oz)', price:2.00, qty:1, tags:['B3','Vit E','Protein']},
-        {id:'d4', name:'Sardines in oil (2 cans)', price:2.50, qty:1, tags:['Vit D','B12','Omega-3']},
-        {id:'d5', name:'Black beans (2 cans)', price:2.00, qty:1, tags:['Folate','Iron']},
-        {id:'d6', name:'Whole grain bread', price:2.00, qty:1, tags:['B vitamins','Fiber']},
-        {id:'d7', name:'Olive oil (16.9 oz)', price:4.00, qty:1, tags:['Vit E','Healthy fats']},
-        {id:'d8', name:'Iodized salt', price:1.00, qty:1, tags:['Iodine']},
-        {id:'d9', name:'Ground coffee (12 oz)', price:3.50, qty:1, tags:['Antioxidants']},
-        {id:'d10', name:'Green tea (40 ct)', price:2.50, qty:1, tags:['L-theanine']},
-        {id:'d11', name:'Sparkling water (12-pk)', price:3.00, qty:1, tags:['Hydration']},
-        {id:'d12', name:'Almonds (8 oz)', price:3.00, qty:1, tags:['Vit E','Magnesium']},
-        {id:'d13', name:'Dark chocolate 70%+', price:2.50, qty:1, tags:['Magnesium','Flavonoids'], star:true}
-      ]
-    },
-    {
-      id:'sw', name:'Safeway', loc:'Idaho Springs, CO',
-      tip:'New weekly ad drops Wednesday · clip Safeway for U deals in the app and enter your phone number at checkout.',
+  budget:120,
+  stores:[
+    { id:'costco', name:'Costco', loc:'52nd & Wadsworth, Denver', bulk:true,
+      tip:'Best value on Kirkland staples, meat, and frozen — buy big and portion it out.',
       coupon:null,
       items:[
-        {id:'s1', name:'Chicken thighs, bone-in (~2.5 lb)', price:5.50, qty:1, tags:['B12','Zinc','B6']},
-        {id:'s2', name:'Greek yogurt, plain (32 oz)', price:4.00, qty:1, tags:['Calcium','B12','Iodine']},
-        {id:'s3', name:'Baby spinach (5 oz)', price:3.00, qty:1, tags:['Iron','Folate','Vit K']},
-        {id:'s4', name:'Sweet potatoes (2–3)', price:2.50, qty:1, tags:['Vit A','Potassium']},
-        {id:'s5', name:'Broccoli', price:2.00, qty:1, tags:['Vit C','Vit K']},
+        {id:'co1', name:'Kirkland extra-virgin olive oil (2 L)', price:17.99, qty:1, tags:['Vit E','Healthy fats'], note:'lasts ~3 months'},
+        {id:'co2', name:'Kirkland coffee (2.5 lb)', price:12.99, qty:1, tags:['Antioxidants'], note:'~6 weeks'},
+        {id:'co3', name:'Eggs (24-ct flat)', price:6.49, qty:1, tags:['B12','Vit D','Selenium'], note:'keep 4–5 weeks'},
+        {id:'co4', name:'Chicken thighs (bulk ~6 lb)', price:12.99, qty:1, tags:['B12','Zinc','B6'], note:'freeze in meal portions'},
+        {id:'co5', name:'Ground beef, 85% lean (~4 lb)', price:15.99, qty:1, tags:['Iron','B12','Zinc'], note:'freeze in ½-lb packs'},
+        {id:'co6', name:'Frozen wild blueberries (3 lb)', price:8.99, qty:1, tags:['Antioxidants','Vit C'], star:true, note:'freezer; no spoilage'},
+        {id:'co7', name:'Greek yogurt, plain (3 lb tub)', price:5.99, qty:1, tags:['Calcium','B12','Iodine'], note:'~4 weeks'},
+        {id:'co8', name:'Almonds (3 lb)', price:12.99, qty:1, tags:['Vit E','Magnesium'], note:'freeze to keep fresh'},
+        {id:'co9', name:'Old-fashioned oats (big tub)', price:6.99, qty:1, tags:['B1','Magnesium','Iron'], note:'lasts months'},
+        {id:'co10', name:'Dark chocolate 70%+ (variety pack)', price:7.99, qty:1, tags:['Magnesium','Flavonoids'], star:true, note:'the treat, in bulk'}
+      ]
+    },
+    { id:'sams', name:"Sam's Club", loc:'52nd & Wadsworth, Denver', bulk:true,
+      tip:'Slight edge on packaged goods and drinks · use Scan & Go to skip the line.',
+      coupon:null,
+      items:[
+        {id:'sa1', name:'Olipop variety pack (12 ct)', price:18.99, qty:1, tags:['Prebiotic','Low sugar']},
+        {id:'sa2', name:'Liquid Death (18-pack)', price:14.98, qty:1, tags:['Sparkling water','Zero sugar']},
+        {id:'sa3', name:'Member\u2019s Mark sparkling water (24-pk)', price:6.98, qty:1, tags:['Hydration'], note:'everyday vs the treat cans'},
+        {id:'sa4', name:'Peanut butter (large jar)', price:7.98, qty:1, tags:['B3','Vit E','Protein'], note:'lasts months'},
+        {id:'sa5', name:'Black beans (8-can pack)', price:6.98, qty:1, tags:['Folate','Iron'], note:'pantry'},
+        {id:'sa6', name:'Sardines / tuna multipack', price:8.98, qty:1, tags:['Vit D','B12','Omega-3'], note:'pantry'},
+        {id:'sa7', name:'Green tea (100 ct)', price:5.98, qty:1, tags:['L-theanine'], note:'lasts months'},
+        {id:'sa8', name:'Frozen broccoli (big bag)', price:6.98, qty:1, tags:['Vit C','Vit K'], note:'freezer; zero waste'}
+      ]
+    },
+    { id:'sw', name:'Safeway', loc:'Idaho Springs, CO', week:true,
+      tip:'Weekly fresh only — small amounts you\u2019ll finish before they spoil. Clip for U deals in the app.',
+      coupon:null,
+      items:[
+        {id:'s3', name:'Baby spinach (5 oz)', price:3.00, qty:1, tags:['Iron','Folate','Vit K'], note:'fresh weekly'},
         {id:'s6', name:'Bananas (bunch)', price:1.75, qty:1, tags:['Potassium','B6']},
-        {id:'s7', name:'Garlic (1 head)', price:0.75, qty:1, tags:['Allicin']},
-        {id:'s8', name:'Apples (3 lb bag)', price:3.50, qty:1, tags:['Vit C','Fiber']},
+        {id:'s4', name:'Sweet potatoes (2–3)', price:2.50, qty:1, tags:['Vit A','Potassium']},
+        {id:'s8', name:'Apples (small bag)', price:3.00, qty:1, tags:['Vit C','Fiber']},
         {id:'s9', name:'Baby carrots (2 lb)', price:2.00, qty:1, tags:['Vit A','Fiber']},
-        {id:'s10', name:'Blueberries (1 pint)', price:3.50, qty:1, tags:['Antioxidants','Vit C'], star:true}
+        {id:'s7', name:'Garlic (1 head)', price:0.75, qty:1, tags:['Allicin']}
+      ]
+    },
+    { id:'dg', name:'Dollar General', loc:'Georgetown, CO', week:true,
+      tip:'Quick weekly fill-ins between Denver trips · grab the $5 off $25 coupon on Saturdays if your cart gets there.',
+      coupon:{ label:'$5 off $25 (Sat)', threshold:25, amount:5, on:true },
+      items:[
+        {id:'d6', name:'Whole grain bread', price:2.00, qty:1, tags:['B vitamins','Fiber'], note:'or buy + freeze in bulk'},
+        {id:'d1', name:'Eggs (dozen)', price:2.75, qty:1, tags:['B12','Vit D'], note:'top-up between stock-ups'},
+        {id:'d8', name:'Iodized salt', price:1.00, qty:1, tags:['Iodine']}
       ]
     }
+  ],
+  inventory:[
+    {id:'iv1', name:'Chicken dinner packs', count:6, low:2, hint:'~2 thighs each'},
+    {id:'iv2', name:'Ground beef ½-lb packs', count:8, low:2, hint:'one chili or hash each'},
+    {id:'iv3', name:'Frozen blueberries', count:1, low:1, hint:'3-lb bag'},
+    {id:'iv4', name:'Frozen broccoli', count:1, low:1, hint:'big bag'},
+    {id:'iv5', name:'Olive oil', count:1, low:1, hint:'2 L bottle'},
+    {id:'iv6', name:'Coffee', count:1, low:1, hint:'2.5 lb bag'},
+    {id:'iv7', name:'Oats', count:1, low:1, hint:'big tub'},
+    {id:'iv8', name:'Peanut butter', count:1, low:1, hint:'large jar'},
+    {id:'iv9', name:'Black beans', count:8, low:2, hint:'cans'},
+    {id:'iv10', name:'Eggs', count:24, low:6, hint:'count'}
   ]
 };
 
-let state, editingId=null, addingStore=null, editingBudget=false;
+const MEALS = {
+  Mon:[
+    {t:'Breakfast',n:'Peanut butter banana oatmeal',tm:'5 min',ing:'oats, banana, peanut butter',s:['Cook ½ cup oats with water per package instructions.','Slice a banana on top and stir in a spoonful of peanut butter.','Add a pinch of salt to balance the sweetness.']},
+    {t:'Lunch',n:'Sardines on toast with spinach',tm:'5 min',ing:'sardines, bread, spinach, olive oil',s:['Toast 1–2 slices of bread.','Layer sardines from the can on top.','Dress a handful of spinach with olive oil and salt on the side.']},
+    {t:'Dinner',n:'Roast chicken, sweet potato & broccoli',tm:'45 min',ing:'chicken thighs, sweet potato, broccoli, garlic, olive oil',s:['Heat oven to 425°F (220°C).','Rub thawed chicken with olive oil, minced garlic and salt; set on a baking sheet.','Cube a sweet potato, toss with oil and salt, add to the pan.','Roast 35–40 min. Add frozen broccoli in the last 8 min. Cook extra chicken for tomorrow.']}
+  ],
+  Tue:[
+    {t:'Breakfast',n:'Greek yogurt with blueberries & almonds',tm:'2 min',ing:'Greek yogurt, frozen blueberries, almonds',s:['Scoop yogurt into a bowl.','Top with a handful of blueberries straight from the freezer.','Add a few crushed almonds for crunch.']},
+    {t:'Lunch',n:'Garlicky black bean bowl with toast',tm:'10 min',ing:'black beans, garlic, spinach, olive oil, bread',s:['Sauté 2 minced garlic cloves in olive oil for 1 min.','Add a can of black beans (drained) and warm through, seasoning with salt.','Stir in spinach until wilted. Serve with toast.']},
+    {t:'Dinner',n:'Leftover chicken with spinach & sweet potato',tm:'12 min',ing:'chicken (leftover), sweet potato, spinach, garlic, olive oil',s:['Reheat leftover chicken in a pan.','Dice a sweet potato and cook in olive oil 8–10 min until tender.','Add garlic and spinach, stir 2 min, then plate with the chicken.']}
+  ],
+  Wed:[
+    {t:'Breakfast',n:'Scrambled eggs on spinach toast',tm:'8 min',ing:'eggs, spinach, bread, olive oil',s:['Toast 2 slices of bread.','Sauté a handful of spinach in olive oil for 1 min.','Add 2–3 whisked eggs with salt and scramble until just set; pile onto the toast.']},
+    {t:'Lunch',n:'Peanut butter & banana toast + apple',tm:'4 min',ing:'peanut butter, bread, banana, apple',s:['Toast a slice of bread and spread with peanut butter.','Top with banana slices.','Serve with a sliced apple on the side.']},
+    {t:'Dinner',n:'Beef & black bean chili',tm:'25 min',ing:'ground beef, black beans, sweet potato, garlic, spinach',s:['Brown ½ lb thawed ground beef with minced garlic, breaking it up; season with salt.','Add a can of black beans, a diced sweet potato, and 1 cup water.','Simmer 15–18 min until the potato is tender, then stir in spinach to wilt.']}
+  ],
+  Thu:[
+    {t:'Breakfast',n:'Peanut butter banana oatmeal',tm:'5 min',ing:'oats, banana, peanut butter',s:['Cook ½ cup oats per package instructions.','Stir in peanut butter and top with banana.','Pinch of salt to finish.']},
+    {t:'Lunch',n:'Sardines on toast with carrots',tm:'5 min',ing:'sardines, bread, spinach, baby carrots',s:['Toast bread and top with a can of sardines.','Add a few spinach leaves.','Serve with baby carrots on the side.']},
+    {t:'Dinner',n:'Pan-roasted chicken with broccoli',tm:'30 min',ing:'chicken thighs, broccoli, garlic, olive oil',s:['Sear thawed chicken thighs skin-side down in an oven-safe pan, 4 min.','Add garlic, flip, and roast at 425°F for 20 min.','Steam frozen broccoli and toss with olive oil and salt to serve.']}
+  ],
+  Fri:[
+    {t:'Breakfast',n:'Greek yogurt with blueberries',tm:'2 min',ing:'Greek yogurt, frozen blueberries, oats',s:['Scoop yogurt into a bowl.','Top with blueberries.','Sprinkle a few dry oats over the top for texture.']},
+    {t:'Lunch',n:'Hard-boiled eggs + spinach toast',tm:'12 min',ing:'eggs, spinach, bread, olive oil',s:['Boil 2 eggs for 9 min, then cool, peel and slice.','Toast bread and top with spinach.','Lay the egg slices on top, drizzle with olive oil and salt.']},
+    {t:'Dinner',n:'Loaded sweet potato',tm:'25 min',ing:'sweet potato, egg, spinach, garlic, olive oil',s:['Bake or microwave a sweet potato until soft.','Sauté spinach with garlic in olive oil.','Split the potato, pile on the spinach, and top with a fried egg.']}
+  ],
+  Sat:[
+    {t:'Breakfast',n:'Spinach & sweet potato frittata',tm:'20 min',ing:'eggs, sweet potato, spinach, garlic, olive oil',s:['Cook diced sweet potato in an oven-safe skillet 8–10 min.','Add garlic and spinach, stir 2 min.','Pour in 4 beaten eggs with salt; cook until edges set, then broil 3–4 min to finish.']},
+    {t:'Lunch',n:'Leftovers remix bowl',tm:'8 min',ing:'whatever is left: chicken, beef, beans, veg',s:['Pull together any leftover chicken, beef, beans, or roasted veg.','Warm in a pan with a little olive oil and garlic.','Top with a spoonful of yogurt or a handful of spinach.']},
+    {t:'Dinner',n:'Beef & sweet potato hash',tm:'20 min',ing:'ground beef, sweet potato, spinach, garlic, egg',s:['Brown another ½ lb thawed ground beef with garlic; set aside.','Crisp diced sweet potato in the same pan, 8–10 min.','Return the beef, fold in spinach, then top with a fried egg.']}
+  ],
+  Sun:[
+    {t:'Breakfast',n:'Peanut butter banana oatmeal',tm:'5 min',ing:'oats, banana, peanut butter',s:['Cook ½ cup oats per package instructions.','Stir in peanut butter, top with banana.','Pinch of salt.']},
+    {t:'Lunch',n:'Egg & spinach scramble + apple',tm:'8 min',ing:'eggs, spinach, garlic, olive oil, apple',s:['Sauté spinach and garlic in olive oil.','Add 2–3 whisked eggs and scramble until set.','Serve with a sliced apple.']},
+    {t:'Dinner',n:'Chicken & black bean stew',tm:'50 min',ing:'chicken thighs, black beans, broccoli, spinach, garlic',s:['Brown thawed chicken in a pot, 3–4 min per side.','Add garlic, a can of beans, and 3 cups water; simmer covered 35 min.','Add frozen broccoli and spinach in the last 6 min and season generously.']}
+  ]
+};
 
-function load(){
-  try{ const raw=localStorage.getItem(KEY); if(raw) return JSON.parse(raw); }catch(e){}
-  return JSON.parse(JSON.stringify(DEFAULT));
-}
+const FREEZE = [
+  {n:'Portion the chicken',tm:'10 min',s:['As soon as you\u2019re home, split the ~6 lb pack into single-dinner portions — about 2 thighs each, roughly 6 dinners.','Lay each portion flat in a freezer bag, press the air out, and seal. Flat bags freeze and thaw far faster than a lump.','Write the date on each bag; quality is best within 3–4 months.','The night before cooking, move one bag to the fridge to thaw — never on the counter.']},
+  {n:'Portion the ground beef',tm:'10 min',s:['Divide the ~4 lb into eight ½-lb packs — a half pound is exactly one chili or one hash.','Flatten each in a bag so it freezes thin and thaws in under an hour if you forget to plan.','Label and date; same 3–4 month window.','Thaw in the fridge overnight, or sealed in a bowl of cold water if you\u2019re rushed.']},
+  {n:'Frozen produce — just scoop',tm:'1 min',s:['The wild blueberries and broccoli arrive frozen, so there\u2019s no prep — keep the bags sealed and scoop what each meal needs.','This is the move that beats one-person spoilage: nothing wilts in the drawer.','Blueberries go straight into yogurt or oatmeal; broccoli steams from frozen in about 5 minutes.']},
+  {n:'Freezer rules of thumb',tm:'read',s:['Freeze everything flat and dated — a marker on the bag is enough.','Keep the freezer at 0°F (−18°C) or below.','Portioned meat is best within 3–4 months; it stays safe longer but quality slips.','First in, first out: put newest at the back so you reach for the oldest first.']},
+  {n:'How one Denver trip stretches',tm:'the math',s:['6 chicken dinners + 8 beef packs ≈ 14 protein-based dinners from a single stock-up.','Add pantry beans, eggs, and sardines and you\u2019ve got 3–4 weeks of dinners with no second club run.','That\u2019s the savings engine: one bulk trip a month, weekly runs for just the fresh produce.']}
+];
+
+const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const TYPECOLOR={Breakfast:'var(--honey)',Lunch:'var(--pine)',Dinner:'var(--blue)'};
+
+let state, view='shop', editingId=null, addingStore=null, editingBudget=false, mealDay='Mon', mealExp=new Set(), guideExp=new Set();
+
+function load(){ try{ const raw=localStorage.getItem(KEY); if(raw){ const p=JSON.parse(raw); if(p&&p.stores){ if(!p.inventory) p.inventory=JSON.parse(JSON.stringify(DEFAULT.inventory)); return p; } } }catch(e){} return JSON.parse(JSON.stringify(DEFAULT)); }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
 const money = n => '$'+(Math.round(n*100)/100).toFixed(2);
 
-function storeSub(store, onlyCart){
-  let s=0;
-  store.items.forEach(it=>{ if(!onlyCart || it.inCart) s += it.price*it.qty; });
-  return s;
-}
-function withCoupon(store, sub){
-  if(store.coupon && store.coupon.on && sub >= store.coupon.threshold) return sub - store.coupon.amount;
-  return sub;
-}
-function totals(){
-  let plan=0, cart=0, inCount=0, total=0;
-  state.stores.forEach(st=>{
-    plan += withCoupon(st, storeSub(st,false));
-    cart += withCoupon(st, storeSub(st,true));
-    st.items.forEach(it=>{ total++; if(it.inCart) inCount++; });
-  });
-  return {plan, cart, inCount, total};
-}
+function storeSub(store, onlyCart){ let s=0; store.items.forEach(it=>{ if(!onlyCart||it.inCart) s+=it.price*it.qty; }); return s; }
+function withCoupon(store, sub){ if(store.coupon&&store.coupon.on&&sub>=store.coupon.threshold) return sub-store.coupon.amount; return sub; }
+function totals(){ let cart=0,inCount=0,total=0; state.stores.forEach(st=>{ cart+=withCoupon(st,storeSub(st,true)); st.items.forEach(it=>{ total++; if(it.inCart) inCount++; }); }); return {cart,inCount,total}; }
 
-const ICON = {
+const ICON={
   check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg>',
   pencil:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
   pin:'<svg class="pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
-  tag:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0l-7.4-7.4V3h10.2l7.2 7.2a2 2 0 0 1 0 3.2z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor"/></svg>',
-  plus:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>'
+  tag:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0l-7.4-7.4V3h10.2l7.2 7.2a2 2 0 0 1 0 3.2z"/><circle cx="7.5" cy="7.5" r="1.3" fill="currentColor"/></svg>',
+  snow:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/></svg>',
+  plus:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  chev:d=>'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;"><path d="'+(d==='up'?'M18 15l-6-6-6 6':'M6 9l6 6 6-6')+'"/></svg>'
 };
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-
-function render(){
-  const t = totals();
-  document.getElementById('incart').textContent = money(t.cart);
-  document.getElementById('plan').textContent = money(t.plan);
-  const leftEl = document.getElementById('left');
-  const left = state.budget - t.cart;
-  leftEl.textContent = money(left);
-  leftEl.classList.toggle('over', left < 0);
-  document.getElementById('count').textContent = t.inCount + ' / ' + t.total;
-
-  const pct = state.budget>0 ? Math.min(t.cart/state.budget,1)*100 : 0;
-  const fill = document.getElementById('fill');
-  fill.style.width = pct + '%';
-  const ratio = state.budget>0 ? t.cart/state.budget : 0;
-  fill.style.background = ratio>1 ? 'var(--clay)' : ratio>0.85 ? 'var(--honey)' : 'var(--pine)';
-  const mark = document.getElementById('mark');
-  const mp = state.budget>0 ? Math.min(t.plan/state.budget,1)*100 : 0;
-  mark.style.left = mp + '%';
-  mark.style.display = t.plan>0 ? 'block' : 'none';
-
-  const bslot = document.getElementById('budget-slot');
-  if(editingBudget){
-    bslot.innerHTML = '<span class="budget-edit"><input id="budget-input" class="num" type="number" inputmode="decimal" min="0" step="1" value="'+state.budget+'"><button class="budget-btn" data-act="save-budget">set</button></span>';
-    const bi = document.getElementById('budget-input'); bi.focus(); bi.select();
-    bi.addEventListener('keydown', e=>{ if(e.key==='Enter') commitBudget(); });
-  } else {
-    bslot.innerHTML = '<button class="budget-btn" data-act="edit-budget">budget '+money(state.budget)+'</button>';
-  }
-
-  const root = document.getElementById('stores');
-  root.innerHTML = state.stores.map(renderStore).join('');
+function setView(v){
+  view=v;
+  document.getElementById('shopview').style.display = v==='shop'?'block':'none';
+  document.getElementById('mealview').style.display = v==='meals'?'block':'none';
+  document.getElementById('freezeview').style.display = v==='freeze'?'block':'none';
+  document.getElementById('tab-shop').classList.toggle('on', v==='shop');
+  document.getElementById('tab-meals').classList.toggle('on', v==='meals');
+  document.getElementById('tab-freeze').classList.toggle('on', v==='freeze');
+  if(v==='meals') renderMeals(); else if(v==='freeze') renderFreezer(); else render();
+  window.scrollTo({top:0});
 }
-
-function renderStore(st){
-  const sub = storeSub(st,false);
-  const couponActive = st.coupon && st.coupon.on && sub >= st.coupon.threshold;
-  let h = '<div class="store">';
-  h += '<div class="store-head">';
-  h += '<div class="store-title">'+ICON.pin+'<h2>'+esc(st.name)+'</h2></div>';
-  h += '<div class="store-loc">'+esc(st.loc)+'</div>';
-  h += '<p class="store-tip">'+ICON.tag.replace('width="12" height="12"','width="13" height="13"')+'<span>'+esc(st.tip)+'</span></p>';
-  if(st.coupon){
-    h += '<div class="coupon'+(st.coupon.on?' on':'')+'" data-act="toggle-coupon" data-store="'+st.id+'">'
-      + '<span class="sw"><i></i></span>'
-      + esc(st.coupon.label) + (couponActive?' · −'+money(st.coupon.amount):'')
-      + '</div>';
-  }
-  h += '</div>';
-
-  st.items.forEach(it=>{
-    if(editingId===it.id){ h += renderEditor(st, it); return; }
-    h += '<div class="item'+(it.inCart?' checked':'')+'">';
-    h += '<div class="check" data-act="toggle" data-store="'+st.id+'" data-id="'+it.id+'" role="checkbox" aria-checked="'+(it.inCart?'true':'false')+'" tabindex="0">'+ICON.check+'</div>';
-    h += '<div class="body" data-act="toggle" data-store="'+st.id+'" data-id="'+it.id+'">';
-    h += '<div class="name">'+esc(it.name)+(it.star?'<span class="star" title="nicer pick">★</span>':'')+'</div>';
-    if(it.tags && it.tags.length) h += '<div class="tags">'+it.tags.map(t=>'<span class="tag">'+esc(t)+'</span>').join('')+'</div>';
-    h += '</div>';
-    h += '<div class="right">';
-    h += '<span class="price">'+money(it.price*it.qty)+'</span>';
-    if(it.qty>1) h += '<span class="qty">'+it.qty+' × '+money(it.price)+'</span>';
-    h += '<button class="edit-btn" data-act="edit" data-store="'+st.id+'" data-id="'+it.id+'" aria-label="Edit '+esc(it.name)+'">'+ICON.pencil+'</button>';
-    h += '</div></div>';
-  });
-
-  if(addingStore===st.id){
-    h += renderAdd(st);
+function render(){
+  const t=totals();
+  document.getElementById('incart').textContent=money(t.cart);
+  document.getElementById('plan').textContent=money(t.cart);
+  const leftEl=document.getElementById('left'); const left=state.budget-t.cart;
+  leftEl.textContent=money(left); leftEl.classList.toggle('over',left<0);
+  document.getElementById('count').textContent=t.inCount+' / '+t.total;
+  const ratio=state.budget>0?t.cart/state.budget:0;
+  const fill=document.getElementById('fill');
+  fill.style.width=Math.min(ratio,1)*100+'%';
+  fill.style.background=ratio>1?'var(--clay)':ratio>0.85?'var(--honey)':'var(--pine)';
+  document.getElementById('mark').style.display='none';
+  const bslot=document.getElementById('budget-slot');
+  if(editingBudget){
+    bslot.innerHTML='<span class="budget-edit"><input id="budget-input" class="num" type="number" inputmode="decimal" min="0" step="1" value="'+state.budget+'"><button class="budget-btn" data-act="save-budget">set</button></span>';
+    const bi=document.getElementById('budget-input'); bi.focus(); bi.select();
+    bi.addEventListener('keydown',e=>{ if(e.key==='Enter') commitBudget(); });
   } else {
-    h += '<div class="add-row"><button class="add-trigger" data-act="add-open" data-store="'+st.id+'">'+ICON.plus+' Add item</button></div>';
+    bslot.innerHTML='<button class="budget-btn" data-act="edit-budget">budget '+money(state.budget)+'</button>';
   }
-  h += '</div>';
+  document.getElementById('stores').innerHTML=state.stores.map(renderStore).join('');
+}
+function renderStore(st){
+  const sub=storeSub(st,false);
+  const couponActive=st.coupon&&st.coupon.on&&sub>=st.coupon.threshold;
+  let h='<div class="store"><div class="store-head">';
+  h+='<div class="store-title">'+ICON.pin+'<h2>'+esc(st.name)+'</h2>'+(st.bulk?'<span class="badge-bulk">STOCK-UP</span>':'')+(st.week?'<span class="badge-week">WEEKLY</span>':'')+'</div>';
+  h+='<div class="store-loc">'+esc(st.loc)+'</div>';
+  h+='<p class="store-tip">'+ICON.tag+'<span>'+esc(st.tip)+'</span></p>';
+  if(st.coupon){
+    h+='<div class="coupon'+(st.coupon.on?' on':'')+'" data-act="toggle-coupon" data-store="'+st.id+'"><span class="sw"><i></i></span>'+esc(st.coupon.label)+(couponActive?' · −'+money(st.coupon.amount):'')+'</div>';
+  }
+  h+='</div>';
+  st.items.forEach(it=>{
+    if(editingId===it.id){ h+=renderEditor(st,it); return; }
+    h+='<div class="item'+(it.inCart?' checked':'')+'">';
+    h+='<div class="check" data-act="toggle" data-store="'+st.id+'" data-id="'+it.id+'" role="checkbox" aria-checked="'+(it.inCart?'true':'false')+'" tabindex="0">'+ICON.check+'</div>';
+    h+='<div class="body" data-act="toggle" data-store="'+st.id+'" data-id="'+it.id+'">';
+    h+='<div class="name">'+esc(it.name)+(it.star?'<span class="star" title="nicer pick">★</span>':'')+'</div>';
+    if(it.tags&&it.tags.length) h+='<div class="tags">'+it.tags.map(t=>'<span class="tag">'+esc(t)+'</span>').join('')+'</div>';
+    if(it.note) h+='<div class="inote">'+ICON.snow+esc(it.note)+'</div>';
+    h+='</div><div class="right"><span class="price">'+money(it.price*it.qty)+'</span>';
+    if(it.qty>1) h+='<span class="qty">'+it.qty+' × '+money(it.price)+'</span>';
+    h+='<button class="edit-btn" data-act="edit" data-store="'+st.id+'" data-id="'+it.id+'" aria-label="Edit '+esc(it.name)+'">'+ICON.pencil+'</button></div></div>';
+  });
+  if(addingStore===st.id){ h+=renderAdd(st); }
+  else { h+='<div class="add-row"><button class="add-trigger" data-act="add-open" data-store="'+st.id+'">'+ICON.plus+' Add item</button></div>'; }
+  h+='</div>';
   return h;
 }
-
-function renderEditor(st, it){
-  return '<div class="editor">'
-    + '<div><label>Item</label><input id="ed-name" value="'+esc(it.name)+'"></div>'
-    + '<div class="frow" style="margin-top:8px;">'
-    + '<div style="flex:2;"><label>Price each</label><input id="ed-price" class="num" type="number" inputmode="decimal" min="0" step="0.01" value="'+it.price+'"></div>'
-    + '<div style="flex:1;"><label>Qty</label><input id="ed-qty" class="num" type="number" inputmode="numeric" min="1" step="1" value="'+it.qty+'"></div>'
-    + '</div>'
-    + '<div class="actions">'
-    + '<button class="btn del" data-act="delete" data-store="'+st.id+'" data-id="'+it.id+'">Delete</button>'
-    + '<div style="display:flex;gap:8px;">'
-    + '<button class="btn ghost" data-act="cancel">Cancel</button>'
-    + '<button class="btn save" data-act="save-edit" data-store="'+st.id+'" data-id="'+it.id+'">Save</button>'
-    + '</div></div></div>';
+function renderEditor(st,it){
+  return '<div class="editor"><div><label>Item</label><input id="ed-name" value="'+esc(it.name)+'"></div>'
+    +'<div class="frow" style="margin-top:8px;"><div style="flex:2;"><label>Price each</label><input id="ed-price" class="num" type="number" inputmode="decimal" min="0" step="0.01" value="'+it.price+'"></div>'
+    +'<div style="flex:1;"><label>Qty</label><input id="ed-qty" class="num" type="number" inputmode="numeric" min="1" step="1" value="'+it.qty+'"></div></div>'
+    +'<div class="actions"><button class="btn del" data-act="delete" data-store="'+st.id+'" data-id="'+it.id+'">Delete</button>'
+    +'<div style="display:flex;gap:8px;"><button class="btn ghost" data-act="cancel">Cancel</button><button class="btn save" data-act="save-edit" data-store="'+st.id+'" data-id="'+it.id+'">Save</button></div></div></div>';
 }
-
 function renderAdd(st){
-  return '<div class="editor">'
-    + '<div><label>New item</label><input id="add-name" placeholder="e.g. Avocados (2)"></div>'
-    + '<div style="margin-top:8px;"><label>Price</label><input id="add-price" class="num" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00"></div>'
-    + '<div class="actions" style="margin-top:10px;justify-content:flex-end;gap:8px;">'
-    + '<button class="btn ghost" data-act="cancel">Cancel</button>'
-    + '<button class="btn save" data-act="add-save" data-store="'+st.id+'">Add</button>'
-    + '</div></div>';
+  return '<div class="editor"><div><label>New item</label><input id="add-name" placeholder="e.g. Avocados (2)"></div>'
+    +'<div style="margin-top:8px;"><label>Price</label><input id="add-price" class="num" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.00"></div>'
+    +'<div class="actions" style="margin-top:10px;justify-content:flex-end;gap:8px;"><button class="btn ghost" data-act="cancel">Cancel</button><button class="btn save" data-act="add-save" data-store="'+st.id+'">Add</button></div></div>';
 }
-
+function renderMeals(){
+  document.getElementById('day-pills').innerHTML=DAYS.map(d=>'<button class="day-pill'+(d===mealDay?' sel':'')+'" data-day="'+d+'">'+d+'</button>').join('');
+  document.getElementById('mealcards').innerHTML=MEALS[mealDay].map((m,i)=>{
+    const k=mealDay+i, open=mealExp.has(k);
+    return '<div class="mcard"><div class="mhead" data-meal="'+k+'"><div style="flex:1;min-width:0;">'
+      +'<div class="mtype" style="color:'+TYPECOLOR[m.t]+'">'+m.t.toUpperCase()+'</div>'
+      +'<div class="mname">'+esc(m.n)+'</div><div class="mmeta">'+esc(m.ing)+'</div></div>'
+      +'<div class="mtime">'+m.tm+ICON.chev(open?'up':'down')+'</div></div>'
+      +'<div class="msteps'+(open?' open':'')+'">'+m.s.map((s,n)=>'<div class="mstep"><span class="mnum">'+(n+1)+'.</span><span>'+esc(s)+'</span></div>').join('')+'</div></div>';
+  }).join('');
+}
+function renderFreezer(){
+  document.getElementById('guidecards').innerHTML=FREEZE.map((g,i)=>{
+    const open=guideExp.has(i);
+    return '<div class="mcard"><div class="mhead" data-guide="'+i+'"><div style="flex:1;min-width:0;">'
+      +'<div class="mtype" style="color:var(--pine)">GUIDE</div><div class="mname">'+esc(g.n)+'</div></div>'
+      +'<div class="mtime">'+g.tm+ICON.chev(open?'up':'down')+'</div></div>'
+      +'<div class="msteps'+(open?' open':'')+'">'+g.s.map((s,n)=>'<div class="mstep"><span class="mnum">'+(n+1)+'.</span><span>'+esc(s)+'</span></div>').join('')+'</div></div>';
+  }).join('');
+  document.getElementById('invlist').innerHTML=state.inventory.map(it=>{
+    const low=it.count<=it.low;
+    return '<div class="inv"><div class="ibody"><div class="iname">'+esc(it.name)+(low?'<span class="restock">restock</span>':'')+'</div>'
+      +(it.hint?'<div class="ihint">'+esc(it.hint)+'</div>':'')+'</div>'
+      +'<div class="counter"><button data-inv="'+it.id+'" data-dir="-1" aria-label="decrease '+esc(it.name)+'">&minus;</button>'
+      +'<span class="cval'+(low?' low':'')+'">'+it.count+'</span>'
+      +'<button data-inv="'+it.id+'" data-dir="1" aria-label="increase '+esc(it.name)+'">+</button></div></div>';
+  }).join('');
+}
 function findStore(id){ return state.stores.find(s=>s.id===id); }
-function findItem(st, id){ return st.items.find(i=>i.id===id); }
+function findItem(st,id){ return st.items.find(i=>i.id===id); }
+function commitBudget(){ const v=parseFloat(document.getElementById('budget-input').value); if(!isNaN(v)&&v>=0) state.budget=Math.round(v*100)/100; editingBudget=false; save(); render(); }
 
-function commitBudget(){
-  const v = parseFloat(document.getElementById('budget-input').value);
-  if(!isNaN(v) && v>=0) state.budget = Math.round(v*100)/100;
-  editingBudget=false; save(); render();
-}
-
-document.addEventListener('click', e=>{
-  const el = e.target.closest('[data-act]');
-  if(!el) return;
-  const act = el.dataset.act;
-  const st = el.dataset.store ? findStore(el.dataset.store) : null;
-  const id = el.dataset.id;
-
+document.addEventListener('click',e=>{
+  const tab=e.target.closest('[data-view]'); if(tab){ setView(tab.dataset.view); return; }
+  const dp=e.target.closest('[data-day]'); if(dp){ mealDay=dp.dataset.day; mealExp.clear(); renderMeals(); return; }
+  const mh=e.target.closest('[data-meal]'); if(mh){ const k=mh.dataset.meal; mealExp.has(k)?mealExp.delete(k):mealExp.add(k); renderMeals(); return; }
+  const gh=e.target.closest('[data-guide]'); if(gh){ const i=+gh.dataset.guide; guideExp.has(i)?guideExp.delete(i):guideExp.add(i); renderFreezer(); return; }
+  const iv=e.target.closest('[data-inv]'); if(iv){ const it=state.inventory.find(x=>x.id===iv.dataset.inv); if(it){ it.count=Math.max(0,it.count+parseInt(iv.dataset.dir,10)); save(); renderFreezer(); } return; }
+  const el=e.target.closest('[data-act]'); if(!el) return;
+  const act=el.dataset.act; const st=el.dataset.store?findStore(el.dataset.store):null; const id=el.dataset.id;
   if(act==='toggle'){ const it=findItem(st,id); it.inCart=!it.inCart; save(); render(); }
   else if(act==='edit'){ editingId=id; addingStore=null; render(); }
   else if(act==='cancel'){ editingId=null; addingStore=null; render(); }
-  else if(act==='save-edit'){
-    const it=findItem(st,id);
-    const name=document.getElementById('ed-name').value.trim();
-    const price=parseFloat(document.getElementById('ed-price').value);
-    const qty=parseInt(document.getElementById('ed-qty').value,10);
-    if(name) it.name=name;
-    if(!isNaN(price)&&price>=0) it.price=Math.round(price*100)/100;
-    if(!isNaN(qty)&&qty>=1) it.qty=qty;
-    editingId=null; save(); render();
-  }
+  else if(act==='save-edit'){ const it=findItem(st,id); const name=document.getElementById('ed-name').value.trim(); const price=parseFloat(document.getElementById('ed-price').value); const qty=parseInt(document.getElementById('ed-qty').value,10); if(name) it.name=name; if(!isNaN(price)&&price>=0) it.price=Math.round(price*100)/100; if(!isNaN(qty)&&qty>=1) it.qty=qty; editingId=null; save(); render(); }
   else if(act==='delete'){ st.items=st.items.filter(i=>i.id!==id); editingId=null; save(); render(); }
   else if(act==='add-open'){ addingStore=st.id; editingId=null; render(); }
-  else if(act==='add-save'){
-    const name=document.getElementById('add-name').value.trim();
-    const price=parseFloat(document.getElementById('add-price').value);
-    if(name){
-      st.items.push({id:'x'+Date.now(), name:name, price:(!isNaN(price)&&price>=0)?Math.round(price*100)/100:0, qty:1, tags:[]});
-    }
-    addingStore=null; save(); render();
-  }
+  else if(act==='add-save'){ const name=document.getElementById('add-name').value.trim(); const price=parseFloat(document.getElementById('add-price').value); if(name){ st.items.push({id:'x'+Date.now(), name:name, price:(!isNaN(price)&&price>=0)?Math.round(price*100)/100:0, qty:1, tags:[]}); } addingStore=null; save(); render(); }
   else if(act==='toggle-coupon'){ st.coupon.on=!st.coupon.on; save(); render(); }
   else if(act==='edit-budget'){ editingBudget=true; render(); }
   else if(act==='save-budget'){ commitBudget(); }
 });
-
-document.addEventListener('keydown', e=>{
+document.addEventListener('keydown',e=>{
   if(e.key!=='Enter'&&e.key!==' ') return;
   const el=e.target.closest('[data-act="toggle"]');
   if(el){ e.preventDefault(); const st=findStore(el.dataset.store); const it=findItem(st,el.dataset.id); it.inCart=!it.inCart; save(); render(); }
 });
+document.getElementById('newweek').addEventListener('click',()=>{ state.stores.forEach(st=>st.items.forEach(it=>it.inCart=false)); save(); render(); window.scrollTo({top:0,behavior:'smooth'}); });
+document.getElementById('reset').addEventListener('click',()=>{ if(confirm('Reset the whole list back to the default plan? Your edits will be cleared.')){ state=JSON.parse(JSON.stringify(DEFAULT)); editingId=null; addingStore=null; save(); render(); } });
 
-document.getElementById('newweek').addEventListener('click', ()=>{
-  state.stores.forEach(st=>st.items.forEach(it=>it.inCart=false));
-  save(); render();
-  window.scrollTo({top:0, behavior:'smooth'});
-});
-document.getElementById('reset').addEventListener('click', ()=>{
-  if(confirm('Reset the whole list back to the default plan? Your edits will be cleared.')){
-    state = JSON.parse(JSON.stringify(DEFAULT));
-    editingId=null; addingStore=null; save(); render();
-  }
-});
-
-state = load();
+state=load();
 render();
-
-if('serviceWorker' in navigator){
-  window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
-  });
-}
+if('serviceWorker' in navigator){ window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); }); }
 </script>
 </body>
 </html>
